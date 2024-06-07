@@ -25,15 +25,12 @@ fs.readFile("color_palette.json", { encoding: "utf8" }, (err, data) => {
  * @returns randomized array with the data received
  */
 function generateRandomColorPalette(data, quantity, max){
-    const arr = []
-    const result = [];
-    while(arr.length < quantity){
-      var candidateInt = Math.floor(Math.random() * max) + 1
-      if(arr.indexOf(candidateInt) === -1) {
-        arr.push(candidateInt)
-        result.push(data[candidateInt])
-      } 
-
+  const result = [];
+  while(result.length < quantity) {
+    const index = Math.floor(Math.random() * max) + 1
+    if(!result.includes(data[index])) {
+      result.push(data[index]);
     }
-  return(result)
+  }
+  return(result);
 }
