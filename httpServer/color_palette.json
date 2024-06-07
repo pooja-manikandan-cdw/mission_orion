@@ -23,6 +23,31 @@
         {
             "id": 6,
             "color": "orange" 
+        },
+        {
+            "id": 7,
+            "color": "hotpink" 
+        },
+        {
+            "id": 8,
+            "color": "olive" 
+        },
+        {
+            "id": 9,
+            "color": "grey" 
+        },
+        {
+            "id": 10,
+            "color": "violet" 
+        },
+        {
+            "id": 11,
+            "color": "maroon" 
+        },
+        {
+            "id": 12,
+            "color": "magenta" 
         }
+
     ]
 }

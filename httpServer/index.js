@@ -36,16 +36,13 @@ http
  * @param {number} max max limit of the colors array
  * @returns randomized array with the data received
  */
-function generateRandomColorPalette(data, quantity, max){
-  const arr = []
+function generateRandomColorPalette(data, quantity, max) {
   const result = [];
-  while(arr.length < quantity){
-    var candidateInt = Math.floor(Math.random() * max) + 1
-    if(arr.indexOf(candidateInt) === -1) {
-      arr.push(candidateInt)
-      result.push(data[candidateInt])
-    } 
-
+  while(result.length < quantity) {
+    const index = Math.floor(Math.random() * max) + 1
+    if(!result.includes(data[index])) {
+      result.push(data[index]);
+    }
   }
-return(result)
+  return(result);
 }
