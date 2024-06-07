@@ -1,9 +1,13 @@
-// const {upperCase} = require('upper-case');
 const express = require('express')
 
-// upperCase("string"); //=> "STRING"
+const localPackage = require('./localPackage')
+
 
 const app = express();
+
+app.use('/', (req, res)=>{
+    res.send(localPackage('pooja'));
+})
 
 app.listen(3000, () => {
     console.log('App listeing at port 3000')
