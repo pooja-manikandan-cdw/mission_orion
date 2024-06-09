@@ -1,16 +1,16 @@
-const express = require('express')
-
 const localPackage = require('./localPackage')
+const { compareAsc, format } = require("date-fns");
 
 
-const app = express();
+console.log(localPackage('pooja'))
 
-app.use('/', (req, res)=>{
-    res.send(localPackage('pooja'));
-})
 
-app.listen(3000, () => {
-    console.log('App listeing at port 3000')
-})
+console.log(format(new Date(2014, 1, 11), "yyyy-MM-dd"));
+//=> '2014-02-11'
 
-// localeUpperCase.localeUpperCase("string", "tr"); //=> "STRİNG"
+const dates = [
+  new Date(1995, 6, 2),
+  new Date(1987, 1, 11),
+  new Date(1989, 6, 10),
+];
+console.log(dates.sort(compareAsc));
