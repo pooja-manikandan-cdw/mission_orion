@@ -1,8 +1,8 @@
-const localPackage = require('./localPackage')
+const localModule = require('./localModule')
 const { compareAsc, format } = require("date-fns");
 
 
-console.log(localPackage('pooja'))
+console.log(localModule('pooja'))
 
 
 console.log(format(new Date(2014, 1, 11), "yyyy-MM-dd"));
