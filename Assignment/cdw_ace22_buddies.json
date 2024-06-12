@@ -1,0 +1,39 @@
+{
+  "data": [
+    {
+      "employeeId": 1,
+      "realName": "Alagu",
+      "nickName": "Alag",
+      "dob": "17-12-2000",
+      "hobbies": ["dancing", "singing"]
+    },
+    {
+      "employeeId": 2,
+      "realName": "Arun",
+      "nickName": "Arun",
+      "dob": "17-12-2000",
+      "hobbies": ["dancing", "singing"]
+    },
+    {
+      "employeeId": 4,
+      "realName": "Dhanush",
+      "nickName": "Dhanush",
+      "dob": "17-12-2000",
+      "hobbies": ["dancing", "singing"]
+    },
+    {
+      "employeeId": 3,
+      "realName": "Sisvanth",
+      "nickName": "Sisvanth",
+      "dob": "17-12-2000",
+      "hobbies": ["dancing", "singing"]
+    },
+    {
+      "employeeId": 5,
+      "realName": "Thinesh",
+      "nickName": "Thinesh",
+      "dob": "17-12-2000",
+      "hobbies": ["dancing", "singing"]
+    }
+  ]
+}
