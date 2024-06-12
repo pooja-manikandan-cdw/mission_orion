@@ -6,7 +6,6 @@ console.log(localModule('pooja'))
 
 
 console.log(format(new Date(2014, 1, 11), "yyyy-MM-dd"));
-//=> '2014-02-11'
 
 const dates = [
   new Date(1995, 6, 2),
