@@ -17,7 +17,8 @@ http
               console.log("saved...");
               const result =  fs.readFileSync("randomized_color_palette.json", "utf8")
               res.writeHead(200, {'Content-Type': 'json'});
-              res.end(result)
+              res.write(result);
+              res.end();
           }
         });
       }
