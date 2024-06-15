@@ -11,7 +11,7 @@ router.get(BUDDY_EMPLOYEE_ID_ENDPOINT, getBuddyController);
 
 router.post(BUDDY_ENDPOINT, addBuddyController);
 
-router.put(BUDDY_EMPLOYEE_ID_ENDPOINT, updateBuddyController)
+router.patch(BUDDY_EMPLOYEE_ID_ENDPOINT, updateBuddyController)
 
 router.delete(BUDDY_EMPLOYEE_ID_ENDPOINT, deleteBuddyController);
 
