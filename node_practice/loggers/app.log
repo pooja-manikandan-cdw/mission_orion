@@ -1,0 +1,21 @@
+{"level":"info","message":"app listening at port 8080"}
+{"level":"error","message":"Error"}
+{"level":"warn","message":"warn"}
+{"level":"info","message":"info"}
+{"level":"info","message":"app listening at port 8080"}
+error - Error
+warn - warn
+info - info
+info - app listening at port 8080
+error - Error - [object Object]
+warn - warn - [object Object]
+info - info - [object Object]
+info - app listening at port 8080 - [object Object]
+error - Error - 2024-06-10T19:25:24.868Z
+warn - warn - 2024-06-10T19:25:24.870Z
+info - info - 2024-06-10T19:25:24.870Z
+info - app listening at port 8080 - 2024-06-10T19:25:24.873Z
+error - Error - 2024-06-10T19:25:49.205Z
+warn - warn - 2024-06-10T19:25:49.207Z
+info - info - 2024-06-10T19:25:49.207Z
+info - app listening at port 8080 - 2024-06-10T19:25:49.210Z
