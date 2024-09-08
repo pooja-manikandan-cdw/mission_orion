@@ -7,6 +7,12 @@ const {
   sortTask,
 } = require("../services/tasksServices");
 
+/**
+ * @description calls get all tasks services 
+ * @param {object} req 
+ * @param {object} res 
+ * @param {Function} next 
+ */
 const getAllTasksController = async (req, res, next) => {
   try {
     const data = await getAllTasks();
@@ -18,6 +24,12 @@ const getAllTasksController = async (req, res, next) => {
   }
 };
 
+/**
+ * @description calls get task services with req param task id passed
+ * @param {object} req 
+ * @param {object} res 
+ * @param {Function} next 
+ */
 const getTaskController = async (req, res, next) => {
   try {
     const data = await getTask(req.params.taskId);
@@ -29,6 +41,12 @@ const getTaskController = async (req, res, next) => {
   }
 };
 
+/**
+ * @description calls update task services with req param task id passed and req body passed
+ * @param {object} req 
+ * @param {object} res 
+ * @param {Function} next 
+ */
 const updateTaskController = async (req, res, next) => {
   try {
     const data = await updateTask(req.params.taskId, req.body);
@@ -42,6 +60,12 @@ const updateTaskController = async (req, res, next) => {
   }
 };
 
+/**
+ * @description calls delete task services with req param task id passed
+ * @param {object} req 
+ * @param {object} res 
+ * @param {Function} next 
+ */
 const deleteTaskController = async (req, res, next) => {
   try {
     const data = await deleteTask(req.params.taskId);

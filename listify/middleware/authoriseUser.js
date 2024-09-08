@@ -1,7 +1,12 @@
 const AppError = require("../AppError");
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
 
+/**
+ * @description this checks if the user is authorized and assign user to req
+ * @param {object} req 
+ * @param {object} res 
+ * @param {Function} next 
+ */
 const authoriseUser = (req, res, next) => {
     const header = req.headers['authorization'];
     const token = header && header.split(' ')[1]

@@ -7,13 +7,22 @@ const {
   sortByTitle,
 } = require("../utils/dataManipulationUtils");
 const { readFromFile, writeIntoFile } = require("../utils/fileSystemUtils");
-const moment = require('moment');
+const moment = require("moment");
 
+/**
+ * @description reads tasks data from json file and returns the same
+ * @returns tasks found from JSON
+ */
 const getAllTasks = () => {
   const tasks = readFromFile("data/tasks.json");
   return tasks;
 };
 
+/**
+ * @description checks for valid id and returns task for the id received
+ * @param {string} id
+ * @returns particular task based on id received
+ */
 const getTask = async (id) => {
   if (!Number(id))
     throw new AppError(400, "Invalid task id", "INVALID_PATH_PARAM");
@@ -28,6 +37,12 @@ const getTask = async (id) => {
   return taskFound;
 };
 
+/**
+ * @description checks for valid and updates the task with id recived with data
+ * @param {string} id
+ * @param {object} data
+ * @returns the updated task
+ */
 const updateTask = async (id, data) => {
   if (!Number(id))
     throw new AppError(400, "Invalid task id", "INVALID_PATH_PARAM");
@@ -44,6 +59,11 @@ const updateTask = async (id, data) => {
   return taskFound;
 };
 
+/**
+ * @description checks for valid id and deletes task for the id received
+ * @param {string} id
+ * @returns deleted task based on id received
+ */
 const deleteTask = async (id) => {
   if (!Number(id))
     throw new AppError(400, "Invalid task id", "INVALID_PATH_PARAM");
@@ -60,9 +80,17 @@ const deleteTask = async (id) => {
   return tasks;
 };
 
+/**
+ * @description filters the tasks based on the params recived
+ * @param {string} title
+ * @param {string} priority
+ * @param {string} dueDate
+ * @param {string} limit
+ * @returns filtered task based on param
+ */
 const filterTask = (title, priority, dueDate, limit) => {
   let tasks = readFromFile("data/tasks.json");
-  const formattedDueDate = moment(dueDate)
+  const formattedDueDate = moment(dueDate);
   tasks = tasks.filter(
     (task) =>
       task.title.includes(title) &&
@@ -94,7 +122,7 @@ const sortTask = async (sortBy, orderBy, limit) => {
   if (response.length >= limit) {
     response.length = limit;
   }
-  console.log('response', response)
+  console.log("response", response);
   return response;
 };
 

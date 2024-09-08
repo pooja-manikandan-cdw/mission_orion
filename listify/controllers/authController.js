@@ -1,5 +1,11 @@
 const { loginServices, registerServices } = require("../services/authServices");
 
+/**
+ * @description calls logins services with req body passed
+ * @param {object} req 
+ * @param {object} res 
+ * @param {Function} next 
+ */
 const loginController = async (req, res, next) => {
   try {
 
@@ -14,6 +20,12 @@ const loginController = async (req, res, next) => {
   }
 };
 
+/**
+ * @description calls register services with req body passed
+ * @param {object} req 
+ * @param {object} res 
+ * @param {Function} next 
+ */
 const registerController = async (req, res, next) => {
   try {
     const response = await registerServices(req.body);
