@@ -104,17 +104,17 @@ const filterTask = (title, priority, dueDate, limit) => {
 };
 
 const sortTask = async (sortBy, orderBy, limit) => {
-  let tasks = readFromFile("data/tasks.json");
+  let tasks = await readFromFile("data/tasks.json");
   let response;
   switch (sortBy) {
     case "title":
-      response = sortByTitle(tasks, orderBy);
+      response = await sortByTitle(tasks, orderBy);
       break;
     case "priority":
-      response = sortByPriority(tasks, orderBy);
+      response = await sortByPriority(tasks, orderBy);
       break;
     case "dueDate":
-      response = sortByDueDate(tasks, orderBy);
+      response = await sortByDueDate(tasks, orderBy);
       break;
     default:
       throw new AppError(400, "Invalid query params", "INVALID_QUERY_PARAM");
@@ -122,7 +122,6 @@ const sortTask = async (sortBy, orderBy, limit) => {
   if (response.length >= limit) {
     response.length = limit;
   }
-  console.log("response", response);
   return response;
 };
 
