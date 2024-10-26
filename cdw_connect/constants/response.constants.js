@@ -20,6 +20,9 @@ MESSAGES = {
     UNABLE_TO_FIND_POST: "Unable to find post",
     UNABLE_TO_FIND_USER: "Unable to find user",
   },
+  AUTHENTICATION: {
+    USER_NOT_AUTHORIZED: "Access denied for the user",
+  },
 };
 
 module.exports = { STATUS_CODES, MESSAGES };

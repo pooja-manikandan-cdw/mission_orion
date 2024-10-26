@@ -21,4 +21,12 @@ const getPendingUsersController = async (req, res) => {
   }
 };
 
-module.exports = { getPendingUsersController };
+const registerUserController = async (req, res, next) => {
+  try {
+    const result = await registerUser(req.body);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = { getPendingUsersController, registerUserController };
