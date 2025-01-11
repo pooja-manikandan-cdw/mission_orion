@@ -1,6 +1,7 @@
 const logger = require("./logger.utils");
 
 const setResponse = (res, status, success, error, message, data) => {
+  console.log("here");
   if (success) logger.info(message);
   return res.status(status).send({
     success: success,

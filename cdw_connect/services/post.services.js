@@ -42,6 +42,9 @@ const commentPost = async (userId, postId, comment) => {
   throw new AppError(BAD_REQUEST, UNABLE_TO_FIND_POST, "");
 };
 
-const searchPost = async () => {};
+const searchPost = async (query) => {
+  const {username, designation, title, location, caption} = query;
+  
+};
 
 module.exports = { createPost, deletePost, likePost, commentPost, searchPost };

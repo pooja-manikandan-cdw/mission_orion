@@ -2,10 +2,14 @@ const express = require("express");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const cookieSession = require("cookie-session");
-const userRoutes = require("./routes/user.routes");
+const employeeRoutes = require("./routes/employee.route");
 const { sendMail } = require("./utils/mailer.utils");
 require("dotenv").config();
-require("./db");
+const connection = require("./db");
+const errorHandler = require("./middleware/errorHandler.middleware");
+const employees = require("./models/employee.model");
+const { decryptPassword } = require("./utils/dataEncryption.utils");
+const AppError = require("./AppError");
 
 const app = express();
 
@@ -20,29 +24,39 @@ app.use(
 app.use(express.json());
 
 app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.session());
 
-passport.serializeUser((user, done) => {
-  console.log("inside serialxe", user);
-  done(null, user.id);
-});
+// passport.serializeUser((user, done) => {
+//   console.log("inside serialxe", user);
+//   done(null, user.id);
+// });
 
-passport.deserializeUser((id, done) => {
-  // logic to find the user by id in our case email
-  // if(found) {
-  //   return done(null, id)
-  // } else {
-  //   return done('errr')
-  // }
-});
+// passport.deserializeUser((id, done) => {
+//   // logic to find the user by id in our case email
+//   // if(found) {
+//   //   return done(null, id)
+//   // } else {
+//   //   return done('errr')
+//   // }
+// });
 passport.use(
   "local",
   new LocalStrategy(
     { passReqToCallback: true },
-    (req, username, password, done) => {
+    async (req, username, password, done) => {
       console.log("usernma", username, password);
       // login to validate user
-      return done(null, { id: "test" });
+      const user = await employees.findOne({ employeeId: username });
+      console.log("userr", user);
+      if (!user) return done(new AppError(404, "user not found", ""), null);
+
+      const decryptedPassword = decryptPassword(password, user.password);
+      console.log("decryptedPassword", decryptedPassword);
+      if (decryptedPassword) {
+        return done(null, user);
+      } else {
+        return done(new AppError(404, "password incorrect", ""), null);
+      }
     }
   )
 );
@@ -56,7 +70,9 @@ passport.use(
 //   })
 // );
 
-app.use("/", userRoutes);
+app.use("/", employeeRoutes);
+
+app.use(errorHandler);
 
 // sendMail(
 //   "test email",
@@ -75,6 +91,6 @@ app.listen(process.env.PORT, () => {
   console.log(`App is listening at port ${process.env.PORT}`);
 });
 
-// connection.once('open', () => {
-//   console.log('Connect to DB');
-// })
+connection.once("open", () => {
+  console.log("Connection available to use");
+});

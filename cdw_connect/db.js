@@ -6,10 +6,11 @@ const CONNECTION_PARAMS = {};
 
 const connection = mongoose.connection;
 
+// console.log("cone", connection);
 mongoose
   .connect(DB_URL)
   .then(() => {
-    console.log("Connect to DB");
+    console.log("Connected to DB");
   })
   .catch((err) => {
     console.log("Error while connecting to Db", err);
