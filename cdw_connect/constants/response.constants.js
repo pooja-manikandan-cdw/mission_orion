@@ -11,7 +11,7 @@ const STATUS_CODES = {
 MESSAGES = {
   SUCCESS: {
     EMPLOYEE: {
-      SUCCESS_SIGNUP: "Signed in sucessfully",
+      SUCCESS_SIGNUP: "Signed in sucessfully, wait for approval",
     },
     PENDING_USERS_FETCH_SUCCESS: "Fetched pending employees successfully",
   },
@@ -30,6 +30,10 @@ MESSAGES = {
   AUTHENTICATION: {
     USER_NOT_AUTHORIZED: "Access denied for the employee",
   },
+  SIGN_IN: {
+    WAITING_FOR_APPROVAL: 'account is still waiting for approval',
+    REJECTED: 'your account is rejected, register after 2 days'
+  }
 };
 
 module.exports = { STATUS_CODES, MESSAGES };

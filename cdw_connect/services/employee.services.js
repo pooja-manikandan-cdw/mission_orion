@@ -4,6 +4,7 @@ const { CDW_EMPLOYEE_MOCK } = require("../constants/apiEndpoint.contants");
 const { STATUS_CODES, MESSAGES } = require("../constants/response.constants");
 const employees = require("../models/employee.model");
 const { encryptPassword } = require("../utils/dataEncryption.utils");
+const jwt = require("jsonwebtoken");
 
 const { SUCCESS, NOT_FOUND, BAD_REQUEST } = STATUS_CODES;
 const { PENDING_USERS_NOT_FOUND, USER_NOT_FOUND, EMPLOYEE } = MESSAGES.FAILURE;
@@ -15,18 +16,18 @@ const { PENDING_USERS_NOT_FOUND, USER_NOT_FOUND, EMPLOYEE } = MESSAGES.FAILURE;
  */
 const signupEmployee = async (employeeDetails) => {
   const { EMPLOYEE_EXIST, UNABLE_TO_FIND_EMPLOYEE } = EMPLOYEE;
-  const { employeeId, name, email, password, role } = employeeDetails;
+  const { employeeId, password, role } = employeeDetails;
 
   // fetch cdw employee json
   const response = await fetch(CDW_EMPLOYEE_MOCK);
+  if(response?.status !== 200)
+    return null;
   const data = await response.json();
 
   // check if employee is found in json
-  const employeeFound = data.employees.find(
+  const employeeFound = data?.employee?.find(
     (employee) => employee.employeeId === employeeDetails.employeeId
   );
-  console.log("data", data);
-  // console.log('employeeFound', employeeFound);
 
   //  throw error when employee not fiund
   if (!employeeFound) {
@@ -34,44 +35,48 @@ const signupEmployee = async (employeeDetails) => {
   }
   // check if user already exist in DB and throw error if found
   const existingUser = await employees.find({ employeeId: employeeId });
-  console.log("existingUser", existingUser);
-  if (existingUser.length) {
+  if (existingUser?.length) {
     throw new AppError(BAD_REQUEST, EMPLOYEE_EXIST, "");
   }
   // encrypt password and update the same in db
   const hashedPassword = await encryptPassword(password);
   const newEmployee = {
-    employeeId,
-    name,
-    email,
+    ...employeeDetails,
     password: hashedPassword,
   }
   if(role === 'co-worker') {
     newEmployee['approvalStatus'] = 'pending'
   }
-  console.log('newEmployee', newEmployee);
   const employee = await new employees(newEmployee).save();
   if (employee) {
     return employee;
   }
 };
 
-const signinEmployee = async (employeeDetails) => {
-  const { employeeId, password } = employeeDetails;
-  console.log(employeeId, password);
-
-  passport.authenticate("local", (err, user) => {
-    console.log("came here");
-    if (err) {
-      console.log("err", err);
-      throw err;
+const signinEmployee = async (user) => {
+  const { role, approvalStatus } = user;
+  const {WAITING_FOR_APPROVAL, REJECTED} = MESSAGES.SIGN_IN;
+  let token='';
+  switch (role) {
+    case 'admin':
+      token = jwt.sign({employeeId: user.employeeId, role: user.role},  process.env.SECRET_KEY, {
+        expiresIn: "3000s",
+      });
+      return token;
+    case 'co-worker':
+      if(approvalStatus === 'pending') {
+        throw new AppError(BAD_REQUEST, WAITING_FOR_APPROVAL, "");
+      } else if(approvalStatus === 'rejected') {
+        throw new AppError(BAD_REQUEST, REJECTED, "");
+      } else {
+        token = jwt.sign({employeeId: user.employeeId, role: user.role},  process.env.SECRET_KEY, {
+          expiresIn: "3000s",
+        });
+        return token;
+      }
+    default: 
+      return '';
     }
-    console.log("userrrr", user);
-    // req.logIn(user, (err) => {
-    //   if (err) next(err);
-    //   res.status(200).send({ data: user });
-    // });
-  });
 };
 
 const updateUser = async (employeeId, user) => {

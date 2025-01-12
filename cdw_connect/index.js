@@ -1,5 +1,5 @@
 const express = require("express");
-const passport = require("passport");
+const passport = require("./middleware/passport.mIddleware");
 const LocalStrategy = require("passport-local").Strategy;
 const cookieSession = require("cookie-session");
 const employeeRoutes = require("./routes/employee.route");
@@ -8,7 +8,7 @@ require("dotenv").config();
 const connection = require("./db");
 const errorHandler = require("./middleware/errorHandler.middleware");
 const employees = require("./models/employee.model");
-const { decryptPassword } = require("./utils/dataEncryption.utils");
+
 const AppError = require("./AppError");
 
 const app = express();
@@ -39,27 +39,33 @@ app.use(passport.initialize());
 //   //   return done('errr')
 //   // }
 // });
-passport.use(
-  "local",
-  new LocalStrategy(
-    { passReqToCallback: true },
-    async (req, username, password, done) => {
-      console.log("usernma", username, password);
-      // login to validate user
-      const user = await employees.findOne({ employeeId: username });
-      console.log("userr", user);
-      if (!user) return done(new AppError(404, "user not found", ""), null);
+// passport.use(
+//   "local",
+//   new LocalStrategy(
+//     { passReqToCallback: true },
+//     async (req, username, password, done) => {
+//       try {
+//         console.log("usernma", username, password);
+//         // login to validate user
+//         const user = await employees.findOne({ employeeId: username });
+//         console.log("userr", user);
+//         if (!user) return done(new AppError(404, "user not found", ""), null);
+  
+//         const decryptedPassword = decryptPassword(password, user.password);
+//         console.log("decryptedPassword", decryptedPassword);
+//         if (decryptedPassword) {
+//           return done(null, user);
+//         } else {
+//           return done(new AppError(404, "password incorrect", ""), null);
+//         }
+//       } catch(error) {
+//         console.error("Error during local strategy:", error);
+//         return done(new AppError(500, "Internal Server Error", ""), null);
+//       }
+//     } 
+//   )
+// );
 
-      const decryptedPassword = decryptPassword(password, user.password);
-      console.log("decryptedPassword", decryptedPassword);
-      if (decryptedPassword) {
-        return done(null, user);
-      } else {
-        return done(new AppError(404, "password incorrect", ""), null);
-      }
-    }
-  )
-);
 
 // passport.use(
 //   new LocalStrategy(function (username, password, done) {

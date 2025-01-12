@@ -35,3 +35,33 @@ error - No more pending employees found - 2024-11-14T13:11:05.135Z
 info - Signed in sucessfully - 2024-11-14T13:12:28.810Z
 info - Fetched pending employees successfully - 2024-11-14T13:12:52.026Z
 error - Employee already signed up - 2024-11-14T13:33:54.010Z
+error - Unexpected token '<', "  <head>
+   "... is not valid JSON - 2025-01-12T08:33:13.549Z
+error - Unexpected token '<', "  <head>
+   "... is not valid JSON - 2025-01-12T08:34:08.424Z
+error - Unexpected token '<', "  <head>
+   "... is not valid JSON - 2025-01-12T08:34:41.664Z
+error - Cannot read properties of undefined (reading 'find') - 2025-01-12T08:44:39.745Z
+error - Body is unusable - 2025-01-12T08:45:44.399Z
+error - Body is unusable - 2025-01-12T08:46:03.086Z
+error - Body is unusable - 2025-01-12T08:47:04.425Z
+info - Signed in sucessfully, wait for approval - 2025-01-12T08:48:18.300Z
+info - Signed in sucessfully, wait for approval - 2025-01-12T08:48:18.305Z
+error - Cannot set headers after they are sent to the client - 2025-01-12T08:48:18.305Z
+info - Signed in sucessfully, wait for approval - 2025-01-12T08:49:51.103Z
+info - Signed in sucessfully, wait for approval - 2025-01-12T08:49:51.104Z
+error - Cannot set headers after they are sent to the client - 2025-01-12T08:49:51.105Z
+error - Operation `employees.find()` buffering timed out after 10000ms - 2025-01-12T08:54:08.295Z
+info - Signed in sucessfully, wait for approval - 2025-01-12T09:01:26.839Z
+info - logged in successfully - 2025-01-12T09:02:48.994Z
+info - logged in successfully - 2025-01-12T09:03:45.728Z
+info - logged in successfully - 2025-01-12T09:11:15.191Z
+error - Cannot read properties of undefined (reading 'logIn') - 2025-01-12T09:12:58.333Z
+error - Cannot read properties of undefined (reading 'logIn') - 2025-01-12T09:14:23.220Z
+error - passport.authenticate is not a function - 2025-01-12T12:49:26.994Z
+error - Internal Server Error - 2025-01-12T12:51:01.986Z
+info - logged in successfully - 2025-01-12T12:53:35.663Z
+error - Internal Server Error - 2025-01-12T13:35:22.279Z
+info - logged in successfully - 2025-01-12T14:44:20.910Z
+info - logged in successfully - 2025-01-12T14:58:32.065Z
+error - Internal Server Error - 2025-01-12T14:59:19.766Z
