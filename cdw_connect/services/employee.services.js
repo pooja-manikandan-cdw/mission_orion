@@ -5,9 +5,11 @@ const { STATUS_CODES, MESSAGES } = require("../constants/response.constants");
 const employees = require("../models/employee.model");
 const { encryptPassword } = require("../utils/dataEncryption.utils");
 const jwt = require("jsonwebtoken");
+const { APPROVAL_STATUS } = require("../constants");
 
 const { SUCCESS, NOT_FOUND, BAD_REQUEST } = STATUS_CODES;
 const { PENDING_USERS_NOT_FOUND, USER_NOT_FOUND, EMPLOYEE } = MESSAGES.FAILURE;
+const { STATUS } = APPROVAL_STATUS
 
 /**
  * @description function to signup employee based on the employee present in cdw mock json
@@ -89,50 +91,36 @@ const updateUser = async (employeeId, user) => {
 };
 
 const getPendingUsers = async () => {
-  const pendingUsers = await employees.find({ approvalStatus: "pending" });
-  console.log("pendingUsers", pendingUsers);
+  const pendingUsers = await employees.find({ approvalStatus: "pending", role: 'co-worker' });
   if (!pendingUsers || !pendingUsers.length)
     throw new AppError(SUCCESS, PENDING_USERS_NOT_FOUND, "");
   return pendingUsers;
 };
 
-const getPendingUserById = async (employeeId) => {
-  const employee = await employees.findOne({ employeeId: employeeId });
-  if (employee) return employee;
-
-  throw new AppError(404, "Employee not found for id", "");
-};
-
-const updatePendingUser = async (id) => {
+const updatePendingUser = async (id, approvalStatus) => {
 
   const response = await fetch(CDW_EMPLOYEE_MOCK);
   const data = await response.json();
 
   // check if employee is found in json
-  const employeeFound = data.employees.find(
-    (employee) => employee.employeeId === employeeDetails.employeeId
+  const employeeFound = data?.employee?.find(
+    (employee) => employee.employeeId === id
   );
 
+  if(!employeeFound)
+    throw new AppError(SUCCESS, PENDING_USERS_NOT_FOUND, "");
   if(employeeFound) {
-    await employees.updateOne(
-      { employeeId: id },
-      { approvalStatus: "approved" }
-
-    );
-    return "approved";
-  } else {
-     await employees.updateOne(
-      { employeeId: id },
-      { approvalStatus: "rejected" }
-
-    );
-    return "rejected";
-  }
-
-
-  
-  // if (updatedResult.modifiedCount) return true;
-  // throw new AppError(NOT_FOUND, USER_NOT_FOUND, "");
+    if(STATUS.includes(approvalStatus)) {
+      const updatedResult = await employees.updateOne(
+       { employeeId: id },
+       { approvalStatus: approvalStatus }
+     );
+     if (updatedResult.modifiedCount)
+      return approvalStatus;
+    } else {
+      throw new AppError(BAD_REQUEST, "invalid status received for approval", "");
+    }
+  };
 };
 
 module.exports = {
@@ -141,5 +129,4 @@ module.exports = {
   updateUser,
   signupEmployee,
   signinEmployee,
-  getPendingUserById,
 };

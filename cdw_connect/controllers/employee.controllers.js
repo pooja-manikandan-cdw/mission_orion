@@ -59,15 +59,26 @@ const signinEmployeeController = async (req, res, next) => {
 
 const updatePendingUserController = async (req, res, next) => {
   try {
-    const result = await updatePendingUser(req.params.id);
+    const result = await updatePendingUser(req.params.employeeId, req.query.approvalStatus);
+    setResponse(res, 200, true, false, "status updated successfully", result);
   } catch (err) {
     next(err);
   }
 };
+
+const updateUserProfileController = async(req, res, next) => {
+  try {
+    const result = await updateUser(req.param.id, req.body);
+    setResponse(res, 200, true, false, "status updated successfully", result);
+  } catch (err) {
+    next(err);
+  }
+}
 
 module.exports = {
   getPendingUsersController,
   signupEmployeeController,
   signinEmployeeController,
   updatePendingUserController,
+  updateUserProfileController
 };
