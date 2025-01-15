@@ -79,3 +79,30 @@ info - status updated successfully - 2025-01-12T18:02:41.997Z
 info - status updated successfully - 2025-01-12T18:04:12.150Z
 info - status updated successfully - 2025-01-12T18:05:01.897Z
 info - logged in successfully - 2025-01-12T18:05:06.090Z
+error - setResponse is not defined - 2025-01-13T08:10:55.565Z
+error - SUCCESS is not defined - 2025-01-13T08:11:20.702Z
+info - post created successfully - 2025-01-13T08:12:15.461Z
+error - User is not authorized - 2025-01-13T08:23:14.068Z
+info - logged in successfully - 2025-01-13T08:23:24.815Z
+error - User is not authorized - 2025-01-13T08:23:51.914Z
+error - jwt is not defined - 2025-01-13T08:24:47.754Z
+error - req.isAuthorized is not a function - 2025-01-13T08:25:17.251Z
+info - post created successfully - 2025-01-13T08:25:17.255Z
+info - post created successfully - 2025-01-13T08:25:47.061Z
+info - logged in successfully - 2025-01-13T08:26:46.311Z
+info - post created successfully - 2025-01-13T08:26:59.145Z
+info - post created successfully - 2025-01-13T08:47:20.179Z
+info - posts retrieved successfully - 2025-01-13T08:52:29.083Z
+error - User is not authorized - 2025-01-13T08:54:25.649Z
+info - post deleted successfully - 2025-01-13T08:54:44.662Z
+info - post created successfully - 2025-01-13T08:55:04.600Z
+error - Session expired Login again - 2025-01-13T09:53:02.416Z
+info - logged in successfully - 2025-01-13T09:53:06.799Z
+info - post created successfully - 2025-01-13T09:53:23.335Z
+error - User is not authorized - 2025-01-13T09:53:50.738Z
+info - retrevied for email - 2025-01-13T09:54:32.459Z
+info - retrevied for email - 2025-01-13T09:55:18.802Z
+info - retrevied for email - 2025-01-13T09:56:39.479Z
+info - retrevied for email - 2025-01-13T09:57:23.010Z
+info - retrevied for email - 2025-01-13T10:01:05.738Z
+info - posts retrieved successfully - 2025-01-13T10:01:35.393Z

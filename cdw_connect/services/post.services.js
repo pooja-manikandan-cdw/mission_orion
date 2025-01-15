@@ -7,20 +7,32 @@ const { BAD_REQUEST } = STATUS_CODES;
 const { UNABLE_TO_CREATE_POST, UNABLE_TO_DELETE_POST, UNABLE_TO_FIND_POST } =
   MESSAGES.FAILURE;
 
-const createPost = async (post) => {
-  const newPost = new posts(post);
+const createPost = async (post, user) => {
+  const {email} = user
+  const newPost = new posts({...post, email});
   const createdStatus = newPost.save();
   if (createdStatus) return true;
   throw new AppError(BAD_REQUEST, UNABLE_TO_CREATE_POST, "");
 };
 
-const deletePost = async (postId, loggedIdUserId) => {
+const getAllPosts = async () => {
+  const post = await posts.find();
+  return post;
+};
+
+const deletePost = async (postId, email) => {
   const deletedStatus = await posts.deleteOne({
     postId: postId,
-    employeeId: loggedIdUserId,
+    email: email,
   });
   if (deletedStatus.deletedCount) return true;
   throw new AppError(BAD_REQUEST, UNABLE_TO_DELETE_POST, "");
+};
+
+const filterPost = async (email) => {
+  console.log('email', email)
+  const post = await posts.find({email: email});
+  return post;
 };
 
 const likePost = async (postId) => {
@@ -43,8 +55,15 @@ const commentPost = async (userId, postId, comment) => {
 };
 
 const searchPost = async (query) => {
-  const {username, designation, title, location, caption} = query;
-  
+  const { username, designation, title, location, caption } = query;
 };
 
-module.exports = { createPost, deletePost, likePost, commentPost, searchPost };
+module.exports = {
+  createPost,
+  getAllPosts,
+  deletePost,
+  likePost,
+  commentPost,
+  searchPost,
+  filterPost,
+};

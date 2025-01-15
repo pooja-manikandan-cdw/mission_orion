@@ -71,7 +71,7 @@ const signinEmployee = async (user) => {
       } else if(approvalStatus === 'rejected') {
         throw new AppError(BAD_REQUEST, REJECTED, "");
       } else {
-        token = jwt.sign({employeeId: user.employeeId, role: user.role},  process.env.SECRET_KEY, {
+        token = jwt.sign({employeeId: user.employeeId, email: user.email, role: user.role},  process.env.SECRET_KEY, {
           expiresIn: "3000s",
         });
         return token;

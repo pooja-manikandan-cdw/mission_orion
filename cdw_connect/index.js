@@ -1,15 +1,13 @@
 const express = require("express");
 const passport = require("./middleware/passport.mIddleware");
-const LocalStrategy = require("passport-local").Strategy;
 const cookieSession = require("cookie-session");
 const employeeRoutes = require("./routes/employee.route");
+const postRoutes = require("./routes/post.routes");
 const { sendMail } = require("./utils/mailer.utils");
 require("dotenv").config();
 const connection = require("./db");
 const errorHandler = require("./middleware/errorHandler.middleware");
-const employees = require("./models/employee.model");
-
-const AppError = require("./AppError");
+const { authorizeUser } = require("./middleware/authorizeUser.middleware");
 
 const app = express();
 
@@ -22,61 +20,10 @@ app.use(
 );
 
 app.use(express.json());
-
 app.use(passport.initialize());
-// app.use(passport.session());
-
-// passport.serializeUser((user, done) => {
-//   console.log("inside serialxe", user);
-//   done(null, user.id);
-// });
-
-// passport.deserializeUser((id, done) => {
-//   // logic to find the user by id in our case email
-//   // if(found) {
-//   //   return done(null, id)
-//   // } else {
-//   //   return done('errr')
-//   // }
-// });
-// passport.use(
-//   "local",
-//   new LocalStrategy(
-//     { passReqToCallback: true },
-//     async (req, username, password, done) => {
-//       try {
-//         console.log("usernma", username, password);
-//         // login to validate user
-//         const user = await employees.findOne({ employeeId: username });
-//         console.log("userr", user);
-//         if (!user) return done(new AppError(404, "user not found", ""), null);
-  
-//         const decryptedPassword = decryptPassword(password, user.password);
-//         console.log("decryptedPassword", decryptedPassword);
-//         if (decryptedPassword) {
-//           return done(null, user);
-//         } else {
-//           return done(new AppError(404, "password incorrect", ""), null);
-//         }
-//       } catch(error) {
-//         console.error("Error during local strategy:", error);
-//         return done(new AppError(500, "Internal Server Error", ""), null);
-//       }
-//     } 
-//   )
-// );
-
-
-// passport.use(
-//   new LocalStrategy(function (username, password, done) {
-//     console.log("usernma", username, password);
-//     // User.findOne({ username: username, password: password }, function (err, user) {
-//     done(err, user);
-//     // });
-//   })
-// );
 
 app.use("/", employeeRoutes);
+app.use("/post", authorizeUser, postRoutes);
 
 app.use(errorHandler);
 
