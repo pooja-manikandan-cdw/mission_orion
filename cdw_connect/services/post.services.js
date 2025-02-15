@@ -35,28 +35,54 @@ const filterPost = async (email) => {
   return post;
 };
 
-const likePost = async (postId) => {
-  const updatedResult = await users.updateOne({ postId: postId }, { like: 10 });
+const likePost = async (postId, employeeId) => {
+  const updatedResult = await users.updateOne({ postId: postId, "like.users": { $ne: employeeId } },
+    {
+      $inc: { "like.count": 1 },  
+      $addToSet: { "like.users": employeeId }  
+    });
   if (updatedResult.modifiedCount) return true;
   throw new AppError(BAD_REQUEST, UNABLE_TO_FIND_POST, "");
 };
 
-const commentPost = async (userId, postId, comment) => {
-  const post = await posts.findOne({ postId: postId });
-
-  post.comments.push({
-    userId: userId,
-    comment: comment,
-    timestamp: moment().format(),
+const commentPost = async (employeeId, postId, comment) => {
+  const updatedResult = await users.updateOne({ postId: postId }, {
+    $push: {
+      comments: {
+        employeeId: employeeId,
+        comment: comment,
+        timestamp: Date.now()
+      }
+    }
   });
-  const updatedResult = await users.updateOne({ postId: postId }, post);
   if (updatedResult.modifiedCount) return true;
   throw new AppError(BAD_REQUEST, UNABLE_TO_FIND_POST, "");
 };
 
 const searchPost = async (query) => {
   const { username, designation, title, location, caption } = query;
+  const results = await posts.find([{
+    $lookup: {
+      from: 'email',               
+      localField: 'email',         
+      foreignField: '_id',
+      as: 'userDetails',
+    }
+  },
+  {
+    $unwind: '$userDetails',
+  },
+  {
+    $match: {
+      'userDetails.name': username,
+      title: title,
+      location: location,
+      caption: caption,
+    }
+  }])
+  console.log('results', results);
 };
+
 
 module.exports = {
   createPost,
