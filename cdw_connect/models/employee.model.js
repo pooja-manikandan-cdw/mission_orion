@@ -15,6 +15,7 @@ const employeeSchema = new mongoose.Schema({
   location: String,
   approvalStatus: String,
   password: String,
+  timestamp: { type: Date, default: Date.now },
 });
 
 const employees = mongoose.model("employees", employeeSchema);

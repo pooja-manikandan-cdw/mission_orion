@@ -4,9 +4,10 @@ const {
   signupEmployee,
   signinEmployee,
   updatePendingUser,
+  updateUser,
 } = require("../services/employee.services");
 const { setResponse } = require("../utils/response.utils");
-const passport = require("../middleware/passport.mIddleware")
+const passport = require("../middleware/passport.mIddleware");
 
 const { SUCCESS, CREATED } = STATUS_CODES;
 const { PENDING_USERS_FETCH_SUCCESS, EMPLOYEE } = MESSAGES.SUCCESS;
@@ -35,7 +36,7 @@ const signupEmployeeController = async (req, res, next) => {
     } else {
       // rework
       setResponse(res, CREATED, true, false, EMPLOYEE.SUCCESS_SIGNUP, result);
-    } 
+    }
   } catch (err) {
     next(err);
   }
@@ -43,7 +44,7 @@ const signupEmployeeController = async (req, res, next) => {
 
 const signinEmployeeController = async (req, res, next) => {
   try {
-    passport.authenticate("local", async(err, user) => {
+    passport.authenticate("local", async (err, user) => {
       if (err) {
         return next(err);
       }
@@ -59,26 +60,29 @@ const signinEmployeeController = async (req, res, next) => {
 
 const updatePendingUserController = async (req, res, next) => {
   try {
-    const result = await updatePendingUser(req.params.employeeId, req.query.approvalStatus);
+    const result = await updatePendingUser(
+      req.params.employeeId,
+      req.query.approvalStatus
+    );
     setResponse(res, 200, true, false, "status updated successfully", result);
   } catch (err) {
     next(err);
   }
 };
 
-const updateUserProfileController = async(req, res, next) => {
+const updateUserProfileController = async (req, res, next) => {
   try {
     const result = await updateUser(req.param.id, req.body);
     setResponse(res, 200, true, false, "status updated successfully", result);
   } catch (err) {
     next(err);
   }
-}
+};
 
 module.exports = {
   getPendingUsersController,
   signupEmployeeController,
   signinEmployeeController,
   updatePendingUserController,
-  updateUserProfileController
+  updateUserProfileController,
 };

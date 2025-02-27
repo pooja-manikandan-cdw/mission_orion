@@ -114,3 +114,34 @@ info - posts retrieved successfully - 2025-02-03T12:52:39.560Z
 info - posts retrieved successfully - 2025-02-03T12:58:41.479Z
 info - posts retrieved successfully - 2025-02-03T12:58:44.034Z
 info - posts retrieved successfully - 2025-02-03T12:59:23.893Z
+error - No more pending employees found - 2025-02-22T08:13:00.436Z
+error - Employee not found to sign up - 2025-02-22T08:13:10.764Z
+error - Employee not found to sign up - 2025-02-22T08:14:47.972Z
+error - Employee not found to sign up - 2025-02-22T08:14:52.656Z
+error - Employee not found to sign up - 2025-02-22T08:15:23.361Z
+error - Employee already signed up - 2025-02-22T08:15:46.606Z
+info - Signed in sucessfully, wait for approval - 2025-02-22T08:16:15.413Z
+error - No more pending employees found - 2025-02-22T08:16:19.564Z
+error - No more pending employees found - 2025-02-22T08:16:21.959Z
+info - Signed in sucessfully, wait for approval - 2025-02-22T08:18:59.589Z
+info - Signed in sucessfully, wait for approval - 2025-02-22T08:19:44.046Z
+info - Signed in sucessfully, wait for approval - 2025-02-22T08:23:48.089Z
+info - Fetched pending employees successfully - 2025-02-22T08:23:56.336Z
+info - Signed in sucessfully, wait for approval - 2025-02-22T11:18:40.289Z
+info - Fetched pending employees successfully - 2025-02-22T11:20:09.425Z
+info - status updated successfully - 2025-02-22T11:20:47.167Z
+info - status updated successfully - 2025-02-22T11:32:25.241Z
+info - status updated successfully - 2025-02-22T11:34:01.687Z
+info - status updated successfully - 2025-02-22T11:34:38.866Z
+error - Employee already signed up - 2025-02-22T11:40:49.478Z
+error - hasTwoDaysPassed is not defined - 2025-02-22T12:05:04.952Z
+error - date is not defined - 2025-02-22T12:05:19.739Z
+error - date is not defined - 2025-02-22T12:05:59.712Z
+error - Employee already signed up - 2025-02-22T12:07:16.047Z
+error - Employee have been rejected try again after 2 days - 2025-02-22T12:07:36.331Z
+error - id is not defined - 2025-02-22T12:08:53.727Z
+info - Signed in sucessfully, wait for approval - 2025-02-22T12:09:12.845Z
+info - status updated successfully - 2025-02-22T15:25:47.216Z
+info - Signed in sucessfully, wait for approval - 2025-02-22T15:26:41.076Z
+info - status updated successfully - 2025-02-22T15:28:46.397Z
+info - Fetched pending employees successfully - 2025-02-23T07:41:01.502Z

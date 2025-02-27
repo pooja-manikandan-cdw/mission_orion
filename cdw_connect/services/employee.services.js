@@ -6,10 +6,12 @@ const employees = require("../models/employee.model");
 const { encryptPassword } = require("../utils/dataEncryption.utils");
 const jwt = require("jsonwebtoken");
 const { APPROVAL_STATUS } = require("../constants");
+const { sendMail } = require("../utils/mailer.utils");
+const { hasTwoDaysPassed } = require("../utils/date.utils");
 
 const { SUCCESS, NOT_FOUND, BAD_REQUEST } = STATUS_CODES;
 const { PENDING_USERS_NOT_FOUND, USER_NOT_FOUND, EMPLOYEE } = MESSAGES.FAILURE;
-const { STATUS } = APPROVAL_STATUS
+const { STATUS } = APPROVAL_STATUS;
 
 /**
  * @description function to signup employee based on the employee present in cdw mock json
@@ -22,22 +24,33 @@ const signupEmployee = async (employeeDetails) => {
 
   // fetch cdw employee json
   const response = await fetch(CDW_EMPLOYEE_MOCK);
-  if(response?.status !== 200)
-    return null;
+  if (response?.status !== 200) return null;
   const data = await response.json();
 
   // check if employee is found in json
   const employeeFound = data?.employee?.find(
     (employee) => employee.employeeId === employeeDetails.employeeId
   );
-
   //  throw error when employee not fiund
   if (!employeeFound) {
     throw new AppError(NOT_FOUND, UNABLE_TO_FIND_EMPLOYEE, "");
   }
   // check if user already exist in DB and throw error if found
   const existingUser = await employees.find({ employeeId: employeeId });
-  if (existingUser?.length) {
+  if (existingUser?.length && existingUser[0].approvalStatus === "rejected") {
+    if (!hasTwoDaysPassed(existingUser[0].timestamp)) {
+      throw new AppError(
+        BAD_REQUEST,
+        "Employee have been rejected try again after 2 days",
+        ""
+      );
+    } else {
+      const updatedResult = await employees.updateOne(
+        { employeeId: employeeId },
+        { approvalStatus: "pending" }
+      );
+      if (updatedResult.modifiedCount) return true;
+    }
     throw new AppError(BAD_REQUEST, EMPLOYEE_EXIST, "");
   }
   // encrypt password and update the same in db
@@ -45,9 +58,9 @@ const signupEmployee = async (employeeDetails) => {
   const newEmployee = {
     ...employeeDetails,
     password: hashedPassword,
-  }
-  if(role === 'co-worker') {
-    newEmployee['approvalStatus'] = 'pending'
+  };
+  if (role === "co-worker") {
+    newEmployee["approvalStatus"] = "pending";
   }
   const employee = await new employees(newEmployee).save();
   if (employee) {
@@ -57,48 +70,58 @@ const signupEmployee = async (employeeDetails) => {
 
 const signinEmployee = async (user) => {
   const { role, approvalStatus } = user;
-  const {WAITING_FOR_APPROVAL, REJECTED} = MESSAGES.SIGN_IN;
-  let token='';
+  const { WAITING_FOR_APPROVAL, REJECTED } = MESSAGES.SIGN_IN;
+  let token = "";
   switch (role) {
-    case 'admin':
-      token = jwt.sign({employeeId: user.employeeId, role: user.role},  process.env.SECRET_KEY, {
-        expiresIn: "3000s",
-      });
+    case "admin":
+      token = jwt.sign(
+        { employeeId: user.employeeId, role: user.role },
+        process.env.SECRET_KEY,
+        {
+          expiresIn: "3000s",
+        }
+      );
       return token;
-    case 'co-worker':
-      if(approvalStatus === 'pending') {
+    case "co-worker":
+      if (approvalStatus === "pending") {
         throw new AppError(BAD_REQUEST, WAITING_FOR_APPROVAL, "");
-      } else if(approvalStatus === 'rejected') {
+      } else if (approvalStatus === "rejected") {
         throw new AppError(BAD_REQUEST, REJECTED, "");
       } else {
-        token = jwt.sign({employeeId: user.employeeId, email: user.email, role: user.role},  process.env.SECRET_KEY, {
-          expiresIn: "3000s",
-        });
+        token = jwt.sign(
+          { employeeId: user.employeeId, email: user.email, role: user.role },
+          process.env.SECRET_KEY,
+          {
+            expiresIn: "3000s",
+          }
+        );
         return token;
       }
-    default: 
-      return '';
-    }
+    default:
+      return "";
+  }
 };
 
 const updateUser = async (employeeId, user) => {
   const updatedResult = await employees.updateOne(
     { employeeId: employeeId },
-    ...user
+    { ...user }
   );
   if (updatedResult.modifiedCount) return true;
-  throw new AppError(BAD_REQUEST, UNABLE_TO_FIND_USER, "");
+  throw new AppError(BAD_REQUEST, USER_NOT_FOUND, "");
 };
 
 const getPendingUsers = async () => {
-  const pendingUsers = await employees.find({ approvalStatus: "pending", role: 'co-worker' });
+  const pendingUsers = await employees.find({
+    approvalStatus: "pending",
+    role: "co-worker",
+  });
   if (!pendingUsers || !pendingUsers.length)
     throw new AppError(SUCCESS, PENDING_USERS_NOT_FOUND, "");
   return pendingUsers;
 };
 
 const updatePendingUser = async (id, approvalStatus) => {
-
   const response = await fetch(CDW_EMPLOYEE_MOCK);
   const data = await response.json();
 
@@ -107,20 +130,36 @@ const updatePendingUser = async (id, approvalStatus) => {
     (employee) => employee.employeeId === id
   );
 
-  if(!employeeFound)
-    throw new AppError(SUCCESS, PENDING_USERS_NOT_FOUND, "");
-  if(employeeFound) {
-    if(STATUS.includes(approvalStatus)) {
+  if (!employeeFound) throw new AppError(SUCCESS, PENDING_USERS_NOT_FOUND, "");
+  if (employeeFound) {
+    if (STATUS.includes(approvalStatus)) {
       const updatedResult = await employees.updateOne(
-       { employeeId: id },
-       { approvalStatus: approvalStatus }
-     );
-     if (updatedResult.modifiedCount)
-      return approvalStatus;
+        { employeeId: id },
+        { approvalStatus: approvalStatus, timestamp: new Date() }
+      );
+      if (approvalStatus === "rejected") {
+        sendMail(
+          "CDW CONNECT",
+          "pooja17122@gmail.com",
+          `<!doctype html>
+          <html ⚡4email>
+            <body>
+            <h1>Hi</h1><br><br>
+              <p style="font-size: 20px;">Your signin request have been rejected</p>
+              <p style="color: red;">please try again after 2 days</p>
+            </body>
+          </html>`
+        );
+      }
+      if (updatedResult.modifiedCount) return approvalStatus;
     } else {
-      throw new AppError(BAD_REQUEST, "invalid status received for approval", "");
+      throw new AppError(
+        BAD_REQUEST,
+        "invalid status received for approval",
+        ""
+      );
     }
-  };
+  }
 };
 
 module.exports = {
