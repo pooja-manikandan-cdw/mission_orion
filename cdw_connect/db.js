@@ -5,9 +5,8 @@ const DB_URL =
 const CONNECTION_PARAMS = {};
 
 const connection = mongoose.connection;
-mongoose.set('debug', true);
+mongoose.set("debug", true);
 
-// console.log("cone", connection);
 mongoose
   .connect(DB_URL, {
     serverSelectionTimeoutMS: 60000,

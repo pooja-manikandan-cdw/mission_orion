@@ -145,3 +145,35 @@ info - status updated successfully - 2025-02-22T15:25:47.216Z
 info - Signed in sucessfully, wait for approval - 2025-02-22T15:26:41.076Z
 info - status updated successfully - 2025-02-22T15:28:46.397Z
 info - Fetched pending employees successfully - 2025-02-23T07:41:01.502Z
+info - posts retrieved successfully - 2025-03-04T10:29:45.719Z
+error - Cannot destructure property 'email' of 'user' as it is undefined. - 2025-03-04T10:37:48.515Z
+error - Cannot destructure property 'email' of 'user' as it is undefined. - 2025-03-04T10:39:23.107Z
+error - Cannot read properties of undefined (reading 'email') - 2025-03-04T11:31:42.074Z
+error - Cannot read properties of undefined (reading 'email') - 2025-03-04T11:53:02.231Z
+info - posts retrieved successfully - 2025-03-04T11:55:29.604Z
+error - validateRequestBody is not a function - 2025-03-15T07:21:35.667Z
+error - validationResult.isEmpty is not a function - 2025-03-15T08:53:19.831Z
+error - Employee not found to sign up - 2025-03-15T08:54:31.903Z
+error - Missing payload - 2025-03-15T09:00:12.436Z
+error - Missing payload - 2025-03-15T09:01:51.712Z
+error - req is not defined - 2025-03-15T09:06:30.116Z
+error - Missing payload - 2025-03-15T09:06:42.281Z
+error - Missing payload - 2025-03-15T09:07:57.290Z
+error - Missing required payload - name,employeeId - 2025-03-15T09:09:00.230Z
+error - Payload validation failed - [object Object],[object Object] - 2025-03-15T09:16:01.076Z
+error - Payload validation failed - [{"type":"field","msg":"name is required","path":"name","location":"body"},{"type":"field","msg":"employeeId is required","path":"employeeId","location":"body"}] - 2025-03-15T09:16:15.942Z
+error - Payload validation failed - name - undefined,employeeId - undefined - 2025-03-15T09:17:17.774Z
+error - Payload validation failed - name - name is required,employeeId - employeeId is required - 2025-03-15T09:17:42.352Z
+error - Payload validation failed - name is required,employeeId is required - 2025-03-15T09:18:20.429Z
+error - Payload validation failed - employeeId is required,employeeId is required - 2025-03-15T09:19:56.004Z
+error - Payload validation failed - employeeId is required,employeeId is required - 2025-03-15T09:20:32.997Z
+error - Payload validation failed - employeeId is required - 2025-03-15T09:20:44.337Z
+error - Payload validation failed - employeeId is required - 2025-03-15T09:21:57.839Z
+error - Payload validation failed - employeeId is required - 2025-03-15T09:22:10.927Z
+error - Payload validation failed - employeeId is required - 2025-03-15T09:22:29.979Z
+error - Payload validation failed - employeeId should be number - 2025-03-15T09:22:34.041Z
+error - Payload validation failed - employeeId should be number - 2025-03-15T09:23:39.740Z
+error - Payload validation failed - employeeId should be number - 2025-03-15T09:23:47.162Z
+error - Payload validation failed - employeeId should be number - 2025-03-15T09:23:55.011Z
+error - Payload validation failed - employeeId should be number - 2025-03-15T09:23:58.844Z
+error - Payload validation failed - employeeId should be number - 2025-03-15T09:25:09.282Z

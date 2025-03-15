@@ -1,41 +1,53 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
-const employees = require("../models/employee.model");  // Adjust this to your actual model path
-const AppError = require("../AppError");   // Assuming custom error handling function
+const employees = require("../models/employee.model"); // Adjust this to your actual model path
+const AppError = require("../AppError"); // Assuming custom error handling function
 const { decryptPassword } = require("../utils/dataEncryption.utils");
+const { PASSPORT } = require("../constants");
+const { STATUS_CODES } = require("../constants/response.constants");
 
+const {
+  EMPLOYEEID,
+  PASSWORD,
+  EMPLOYEE_NOT_FOUND,
+  INCORRECT_PASSWORD,
+  INTERNAL_SERVER_ERROR,
+} = PASSPORT;
 passport.use(
   "local",
   new LocalStrategy(
-    { passReqToCallback: true },  // Optional: Pass req to callback if needed
-    async (req, username, password, done) => {
-      console.log("Attempting to authenticate user:", username);  // Log this to check if strategy is triggered
-
+    {
+      passReqToCallback: true,
+      usernameField: EMPLOYEEID,
+      passwordField: PASSWORD,
+    },
+    async (req, employeeId, password, done) => {
       try {
-        // Attempt to find user by employeeId (username)
-        const user = await employees.findOne({ employeeId: username });
-
+        const user = await employees.findOne({ employeeId: employeeId });
         if (!user) {
-          console.log("User not found");
-          return done(new AppError(404, "User not found", ""), null);
+          return done(
+            new AppError(STATUS_CODES.BAD_REQUEST, EMPLOYEE_NOT_FOUND, ""),
+            null
+          );
         }
-
-        // Assuming decryptPassword is a function to decrypt password, use a bcrypt method instead if needed
         const decryptedPassword = decryptPassword(password, user.password);
-        console.log("Decrypted password check:", decryptedPassword);  // Log this to verify password decryption
-
         if (!decryptedPassword) {
-          console.log("Incorrect password");
-          return done(new AppError(401, "Incorrect password", ""), null);
+          return done(
+            new AppError(STATUS_CODES.BAD_REQUEST, INCORRECT_PASSWORD, ""),
+            null
+          );
         }
-
-        // If everything checks out, pass the user to the next middleware
-        console.log("User authenticated:", user);
-        req.user = user;
+        req.employee = user;
         return done(null, user);
       } catch (err) {
-        console.error("Error in LocalStrategy:", err);
-        return done(new AppError(500, "Internal Server Error", ""), null);
+        return done(
+          new AppError(
+            STATUS_CODES.INTERNAL_SERVER_ERROR,
+            INTERNAL_SERVER_ERROR,
+            ""
+          ),
+          null
+        );
       }
     }
   )

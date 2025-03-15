@@ -14,7 +14,7 @@ const postSchema = new mongoose.Schema({
   },
   comments: [
     {
-      employeeId: String,
+      email: String,
       comment: String,
       timestamp: { type: Date, default: Date.now },
     },

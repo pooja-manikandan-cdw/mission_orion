@@ -5,8 +5,9 @@ const employeeRoutes = require("./routes/employee.route");
 const postRoutes = require("./routes/post.routes");
 require("dotenv").config();
 const connection = require("./db");
-const errorHandler = require("./middleware/errorHandler.middleware");
+const { errorHandler } = require("./middleware/errorHandler.middleware");
 const { authorizeUser } = require("./middleware/authorizeUser.middleware");
+const { setupDocs } = require("./utils/documentation.utils");
 require("./schedulers/appMaintenance");
 
 const app = express();
@@ -22,14 +23,14 @@ app.use(
 app.use(express.json());
 app.use(passport.initialize());
 
+app.use("/post", authorizeUser, postRoutes);
 app.use("/", employeeRoutes);
-app.use("/post", postRoutes);
-// app.use("/post", authorizeUser, postRoutes);
 
 app.use(errorHandler);
 
 app.listen(process.env.PORT, () => {
   console.log(`App is listening at port ${process.env.PORT}`);
+  setupDocs(app);
 });
 
 connection.once("open", () => {

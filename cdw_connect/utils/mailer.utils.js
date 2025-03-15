@@ -1,5 +1,11 @@
 const nodeMailer = require("nodemailer");
 
+/**
+ * @description send mail based on received details
+ * @param {String} subject
+ * @param {String} recepient
+ * @param {String} content
+ */
 const sendMail = async (subject, recepient, content) => {
   const transporter = nodeMailer.createTransport({
     pool: true,
@@ -20,17 +26,6 @@ const sendMail = async (subject, recepient, content) => {
     subject: subject,
     html: content,
   });
-  console.log("mail", mail.messageId);
-  //   var transport = nodeMailer.createTransport("SMTP", {
-  //     service: "Outlook365", // Use 'hotmail' for Hotmail accounts
-  //     auth: {
-  //       user: "your-email@outlook.com", // Your Outlook email
-  //       pass: "your-password", // Your Outlook password or app password
-  //     },
-  //     port: 465,
-  //     secure: true,
-  //   });
-  // verify connection configuration
   transporter.verify(function (error, success) {
     if (error) {
       console.log("eroor", error);

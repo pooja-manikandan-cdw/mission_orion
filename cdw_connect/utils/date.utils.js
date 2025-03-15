@@ -1,3 +1,8 @@
+/**
+ * @description checks if the received date have passed on 2 days
+ * @param {Date} date
+ * @returns boolean if 2 days have passed
+ */
 const hasTwoDaysPassed = (date) => {
   const inputDate = new Date(date);
   const currentDate = new Date();

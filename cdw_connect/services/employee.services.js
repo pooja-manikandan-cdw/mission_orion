@@ -5,13 +5,22 @@ const { STATUS_CODES, MESSAGES } = require("../constants/response.constants");
 const employees = require("../models/employee.model");
 const { encryptPassword } = require("../utils/dataEncryption.utils");
 const jwt = require("jsonwebtoken");
-const { APPROVAL_STATUS } = require("../constants");
+const { APPROVAL_STATUS, ROLE, EMAIL_DETAILS } = require("../constants");
 const { sendMail } = require("../utils/mailer.utils");
 const { hasTwoDaysPassed } = require("../utils/date.utils");
 
 const { SUCCESS, NOT_FOUND, BAD_REQUEST } = STATUS_CODES;
-const { PENDING_USERS_NOT_FOUND, USER_NOT_FOUND, EMPLOYEE } = MESSAGES.FAILURE;
-const { STATUS } = APPROVAL_STATUS;
+const {
+  PENDING_USERS_NOT_FOUND,
+  USER_NOT_FOUND,
+  EMPLOYEE,
+  EMPLOYEE_STATUS_REJECT,
+  UNABLE_UPDATE_ADMIN_STATUS,
+  INVALID_STATUS_RECEIVED,
+} = MESSAGES.FAILURE;
+const { STATUS, REJECTED, PENDING } = APPROVAL_STATUS;
+const { ADMIN, CO_WORKER } = ROLE;
+const { TITLE, MAIL } = EMAIL_DETAILS;
 
 /**
  * @description function to signup employee based on the employee present in cdw mock json
@@ -37,17 +46,13 @@ const signupEmployee = async (employeeDetails) => {
   }
   // check if user already exist in DB and throw error if found
   const existingUser = await employees.find({ employeeId: employeeId });
-  if (existingUser?.length && existingUser[0].approvalStatus === "rejected") {
+  if (existingUser?.length && existingUser[0].approvalStatus === REJECTED) {
     if (!hasTwoDaysPassed(existingUser[0].timestamp)) {
-      throw new AppError(
-        BAD_REQUEST,
-        "Employee have been rejected try again after 2 days",
-        ""
-      );
+      throw new AppError(BAD_REQUEST, EMPLOYEE_STATUS_REJECT, "");
     } else {
       const updatedResult = await employees.updateOne(
         { employeeId: employeeId },
-        { approvalStatus: "pending" }
+        { approvalStatus: REJECTED }
       );
       if (updatedResult.modifiedCount) return true;
     }
@@ -59,8 +64,8 @@ const signupEmployee = async (employeeDetails) => {
     ...employeeDetails,
     password: hashedPassword,
   };
-  if (role === "co-worker") {
-    newEmployee["approvalStatus"] = "pending";
+  if (role === CO_WORKER) {
+    newEmployee["approvalStatus"] = PENDING;
   }
   const employee = await new employees(newEmployee).save();
   if (employee) {
@@ -68,24 +73,40 @@ const signupEmployee = async (employeeDetails) => {
   }
 };
 
+/**
+ * sign in user and returns a jwt token
+ * @param {Object} user details of the logged in user
+ * @returns jwt token
+ */
 const signinEmployee = async (user) => {
   const { role, approvalStatus } = user;
   const { WAITING_FOR_APPROVAL, REJECTED } = MESSAGES.SIGN_IN;
   let token = "";
   switch (role) {
-    case "admin":
+    case ADMIN:
       token = jwt.sign(
-        { employeeId: user.employeeId, role: user.role },
+        { employeeId: user.employeeId, role: user.role, email: user.email },
         process.env.SECRET_KEY,
         {
           expiresIn: "3000s",
         }
       );
-      return token;
-    case "co-worker":
-      if (approvalStatus === "pending") {
+      return {
+        token,
+        employeeId: user.employeeId,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+        profilePicture: user.profilePicture,
+        certifications: user.certifications,
+        experience: user.experience,
+        bu: user.bu,
+        location: user.location,
+      };
+    case CO_WORKER:
+      if (approvalStatus === PENDING) {
         throw new AppError(BAD_REQUEST, WAITING_FOR_APPROVAL, "");
-      } else if (approvalStatus === "rejected") {
+      } else if (approvalStatus === REJECTED) {
         throw new AppError(BAD_REQUEST, REJECTED, "");
       } else {
         token = jwt.sign(
@@ -95,13 +116,30 @@ const signinEmployee = async (user) => {
             expiresIn: "3000s",
           }
         );
-        return token;
+        return {
+          token,
+          employeeId: user.employeeId,
+          email: user.email,
+          name: user.name,
+          role: user.role,
+          profilePicture: user.profilePicture,
+          certifications: user.certifications,
+          experience: user.experience,
+          bu: user.bu,
+          location: user.location,
+        };
       }
     default:
       return "";
   }
 };
 
+/**
+ * @description updates user profile for the employeeId received
+ * @param {String} employeeId id to which user should be updated
+ * @param {Object} user details to be updated
+ * @returns boolean based the updated status
+ */
 const updateUser = async (employeeId, user) => {
   const updatedResult = await employees.updateOne(
     { employeeId: employeeId },
@@ -111,16 +149,26 @@ const updateUser = async (employeeId, user) => {
   throw new AppError(BAD_REQUEST, USER_NOT_FOUND, "");
 };
 
+/**
+ * @description fetch all the pending users
+ * @returns the pending users
+ */
 const getPendingUsers = async () => {
   const pendingUsers = await employees.find({
-    approvalStatus: "pending",
-    role: "co-worker",
+    approvalStatus: PENDING,
+    role: CO_WORKER,
   });
   if (!pendingUsers || !pendingUsers.length)
     throw new AppError(SUCCESS, PENDING_USERS_NOT_FOUND, "");
   return pendingUsers;
 };
 
+/**
+ * @description update the pending user status
+ * @param {String} id update the status for the id
+ * @param {String} approvalStatus status to be updated
+ * @returns
+ */
 const updatePendingUser = async (id, approvalStatus) => {
   const response = await fetch(CDW_EMPLOYEE_MOCK);
   const data = await response.json();
@@ -134,32 +182,49 @@ const updatePendingUser = async (id, approvalStatus) => {
   if (employeeFound) {
     if (STATUS.includes(approvalStatus)) {
       const updatedResult = await employees.updateOne(
-        { employeeId: id },
+        { employeeId: id, role: CO_WORKER },
         { approvalStatus: approvalStatus, timestamp: new Date() }
       );
-      if (approvalStatus === "rejected") {
+      if (updatedResult.modifiedCount) {
         sendMail(
-          "CDW CONNECT",
-          "pooja17122@gmail.com",
+          TITLE,
+          MAIL,
           `<!doctype html>
-          <html ⚡4email>
-            <body>
-            <h1>Hi</h1><br><br>
-              <p style="font-size: 20px;">Your signin request have been rejected</p>
-              <p style="color: red;">please try again after 2 days</p>
-            </body>
-          </html>`
+            <html ⚡4email>
+              <body>
+              <h1>Hi</h1><br><br>
+                <p style="font-size: 20px;">Your signin request have been ${approvalStatus}</p>
+                ${
+                  approvalStatus
+                    ? '<p style="color: red;">please try again after 2 days</p>'
+                    : "<p>click link to login to cdw connect</p>"
+                }
+              </body>
+            </html>`
         );
+        return approvalStatus;
+      } else {
+        throw new AppError(BAD_REQUEST, UNABLE_UPDATE_ADMIN_STATUS, "");
       }
-      if (updatedResult.modifiedCount) return approvalStatus;
     } else {
-      throw new AppError(
-        BAD_REQUEST,
-        "invalid status received for approval",
-        ""
-      );
+      throw new AppError(BAD_REQUEST, INVALID_STATUS_RECEIVED, "");
     }
   }
+};
+
+const getEmployeeDetails = async (employeeId) => {
+  const user = await employees.findOne({ employeeId: employeeId });
+  return {
+    employeeId: user.employeeId,
+    email: user.email,
+    name: user.name,
+    role: user.role,
+    profilePicture: user.profilePicture,
+    certifications: user.certifications,
+    experience: user.experience,
+    bu: user.bu,
+    location: user.location,
+  };
 };
 
 module.exports = {
@@ -168,4 +233,5 @@ module.exports = {
   updateUser,
   signupEmployee,
   signinEmployee,
+  getEmployeeDetails,
 };
