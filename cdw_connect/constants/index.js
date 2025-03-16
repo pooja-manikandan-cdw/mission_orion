@@ -6,7 +6,7 @@ const APPROVAL_STATUS = {
 
 const ROLE = {
   ADMIN: "admin",
-  CO_WORKER: "co-worked",
+  CO_WORKER: "co-worker",
 };
 
 const EMAIL_DETAILS = {

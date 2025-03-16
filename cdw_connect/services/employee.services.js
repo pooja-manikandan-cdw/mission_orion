@@ -80,7 +80,7 @@ const signupEmployee = async (employeeDetails) => {
  */
 const signinEmployee = async (user) => {
   const { role, approvalStatus } = user;
-  const { WAITING_FOR_APPROVAL, REJECTED } = MESSAGES.SIGN_IN;
+  const { WAITING_FOR_APPROVAL, REJECTED_MESSAGE } = MESSAGES.SIGN_IN;
   let token = "";
   switch (role) {
     case ADMIN:
@@ -107,7 +107,7 @@ const signinEmployee = async (user) => {
       if (approvalStatus === PENDING) {
         throw new AppError(BAD_REQUEST, WAITING_FOR_APPROVAL, "");
       } else if (approvalStatus === REJECTED) {
-        throw new AppError(BAD_REQUEST, REJECTED, "");
+        throw new AppError(BAD_REQUEST, REJECTED_MESSAGE, "");
       } else {
         token = jwt.sign(
           { employeeId: user.employeeId, email: user.email, role: user.role },

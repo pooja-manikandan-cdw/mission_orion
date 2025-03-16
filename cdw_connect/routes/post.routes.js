@@ -22,15 +22,11 @@ const postValidation = [
 ];
 
 const emailValidation = [
-  query("email")
-    .notEmpty()
-    .withMessage("email is required in query")
-]
+  query("email").notEmpty().withMessage("email is required in query"),
+];
 
 const postIdValidation = [
-  param("postId")
-    .notEmpty()
-    .withMessage("postId is required in path")
+  param("postId").notEmpty().withMessage("postId is required in path"),
 ];
 
 /**
@@ -41,6 +37,8 @@ const postIdValidation = [
  *       - App Routes
  *     summary: createPost
  *     description: create a post route
+ *     security:
+ *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -106,7 +104,12 @@ router.get("/", getAllPostsController);
  *             schema:
  *               $ref: "#/components/schemas/posts"
  */
-router.delete("/:postId", postIdValidation, validateRequiredPayload, deletePostController);
+router.delete(
+  "/:postId",
+  postIdValidation,
+  validateRequiredPayload,
+  deletePostController
+);
 
 /**
  * @swagger
@@ -117,10 +120,10 @@ router.delete("/:postId", postIdValidation, validateRequiredPayload, deletePostC
  *     summary: filterPostByEmail
  *     description: Basic route to delete post
  *     parameters:
- *       - in: path
- *         name: postId
+ *       - in: query
+ *         name: email
  *         required: true
- *         description: post ID to update
+ *         description: email to filter posts
  *         schema:
  *           type: string
  *     responses:
@@ -131,20 +134,25 @@ router.delete("/:postId", postIdValidation, validateRequiredPayload, deletePostC
  *             schema:
  *               $ref: "#/components/schemas/posts"
  */
-router.get("/filter", emailValidation, validateRequiredPayload, filterPostController);
+router.get(
+  "/filter",
+  emailValidation,
+  validateRequiredPayload,
+  filterPostController
+);
 /**
  * @swagger
- * /post/like:
+ * /post/like/{postId}:
  *   patch:
  *     tags:
  *       - App Routes
  *     summary: likePost
  *     description: Basic route to like post
  *     parameters:
- *       - in: query
- *         name: email
+ *       - in: path
+ *         name: postId
  *         required: true
- *         description: post ID to delete
+ *         description: post ID to update like
  *         schema:
  *           type: string
  *     responses:

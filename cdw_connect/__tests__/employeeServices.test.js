@@ -142,34 +142,6 @@ describe("signupEmployee", () => {
     const result = await signupEmployee(payload);
     expect(result).toBe(true);
   });
-
-  // it("should save a new employee and return the same", async() => {
-  //   payload.employeeId = '1910';
-  //   console.log('logging', employees)
-  //   // const mockSave = jest.fn().mockResolvedValueOnce({
-  //   //   ...payload
-  //   // });
-
-  //   // Use spyOn to mock the save method of the employees model
-  //   // jest.spyOn(employees.prototype, 'save').mockImplementation(mockSave);
-  //   await expect(employees.save()).resolves.toEqual(payload);
-  //   // const mockSave = jest.fn().mockResolvedValueOnce({
-  //   //  payload
-  //   // });
-  //   // employees.mockImplementationOnce(() => ({
-  //   //   save: mockSave,
-  //   // }));
-  //   // employees.mockReset();
-  //   // const saveSpy = jest.spyOn(employees)
-  //   // employees.mockImplementationOnce(() => ({
-  //   //   save: jest.fn().mockResolvedValue(payload),
-  //   // }));
-  //   // employees.find.mockResolvedValue([])
-  //   // employees.save.mockResolvedValue(payload)
-  //   const result = await signupEmployee(payload);
-  //   await expect(result).toBe(payload);
-  //   await expect(result).toBe(payload);
-  // })
 });
 
 describe("signinEmployee", () => {
@@ -181,7 +153,18 @@ describe("signinEmployee", () => {
   it("should return token when it have valid employeeId and role is admin", async () => {
     jwt.sign.mockReturnValue("testToken");
     const token = await signinEmployee(payload);
-    expect(token).toEqual("testToken");
+    expect(token).toEqual({
+      bu: undefined,
+      certifications: undefined,
+      email: undefined,
+      employeeId: "1675",
+      experience: undefined,
+      location: undefined,
+      name: undefined,
+      profilePicture: undefined,
+      role: "admin",
+      token: "testToken",
+    });
   });
   it("should throw app error when approval status is pending", async () => {
     payload.role = "co-worker";
@@ -206,7 +189,18 @@ describe("signinEmployee", () => {
   it("should return token for a successfull co-worker login", async () => {
     payload.approvalStatus = "approved";
     const token = await signinEmployee(payload);
-    expect(token).toEqual("testToken");
+    expect(token).toEqual({
+      bu: undefined,
+      certifications: undefined,
+      email: undefined,
+      employeeId: "1675",
+      experience: undefined,
+      location: undefined,
+      name: undefined,
+      profilePicture: undefined,
+      role: "co-worker",
+      token: "testToken",
+    });
   });
   it("should return empty string when role is neither admin nor co-worker", async () => {
     payload.role = "abc";

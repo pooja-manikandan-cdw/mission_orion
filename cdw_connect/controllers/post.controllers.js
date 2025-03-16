@@ -127,7 +127,6 @@ const commentPostContainer = async (req, res, next) => {
  */
 const searchPostContainer = async (req, res, next) => {
   try {
-    console.log("hete", req.query);
     const result = await searchPost(req.query);
     if (result)
       setResponse(res, SUCCESS, true, false, SEARCH_POSTS_SUCCESS, result);

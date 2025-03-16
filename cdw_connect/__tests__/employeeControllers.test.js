@@ -141,7 +141,7 @@ describe("updateUserProfileController", () => {
   beforeEach(() => {
     next = jest.fn();
     req = {
-      param: {
+      params: {
         employeeId: 122,
       },
       body: {},

@@ -177,3 +177,30 @@ error - Payload validation failed - employeeId should be number - 2025-03-15T09:
 error - Payload validation failed - employeeId should be number - 2025-03-15T09:23:55.011Z
 error - Payload validation failed - employeeId should be number - 2025-03-15T09:23:58.844Z
 error - Payload validation failed - employeeId should be number - 2025-03-15T09:25:09.282Z
+error - User is not authorized - 2025-03-16T17:43:22.452Z
+error - User is not authorized - 2025-03-16T17:45:01.673Z
+error - User is not authorized - 2025-03-16T17:45:06.579Z
+error - User is not authorized - 2025-03-16T17:48:02.090Z
+error - User is not authorized - 2025-03-16T17:48:45.402Z
+info - logged in successfully - 2025-03-16T17:48:56.044Z
+info - logged in successfully - 2025-03-16T17:49:10.077Z
+info - logged in successfully - 2025-03-16T17:50:21.688Z
+info - logged in successfully - 2025-03-16T17:50:44.499Z
+error - User is not authorized - 2025-03-16T17:53:29.130Z
+error - User is not authorized - 2025-03-16T17:55:47.179Z
+error - User is not authorized - 2025-03-16T17:57:00.548Z
+error - Session expired Login again - 2025-03-16T18:03:47.730Z
+error - Session expired Login again - 2025-03-16T18:04:51.828Z
+error - Payload validation failed - attachment is required - 2025-03-16T18:05:15.876Z
+info - post created successfully - 2025-03-16T18:06:59.001Z
+error - Cast to ObjectId failed for value "1212" (type string) at path "_id" for model "posts" - 2025-03-16T18:09:06.389Z
+error - Cast to ObjectId failed for value ""1212"" (type string) at path "_id" for model "posts" - 2025-03-16T18:09:16.711Z
+error - Cast to ObjectId failed for value "1212" (type string) at path "_id" for model "posts" - 2025-03-16T18:09:41.864Z
+error - Cast to ObjectId failed for value "1212" (type string) at path "_id" for model "posts" - 2025-03-16T18:10:46.561Z
+error - Cast to ObjectId failed for value "1212" (type string) at path "_id" for model "posts" - 2025-03-16T18:11:11.606Z
+error - Operation `posts.find()` buffering timed out after 10000ms - 2025-03-16T18:12:01.767Z
+error - Operation `posts.find()` buffering timed out after 10000ms - 2025-03-16T18:12:45.227Z
+error - Operation `posts.find()` buffering timed out after 10000ms - 2025-03-16T18:13:40.002Z
+info - posts retrieved successfully - 2025-03-16T18:15:13.889Z
+info - like updated for the post - 2025-03-16T18:19:03.150Z
+error - Unable to delete posts - 2025-03-16T18:20:23.164Z

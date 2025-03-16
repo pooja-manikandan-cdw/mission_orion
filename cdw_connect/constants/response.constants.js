@@ -50,7 +50,7 @@ MESSAGES = {
   },
   SIGN_IN: {
     WAITING_FOR_APPROVAL: "account is still waiting for approval",
-    REJECTED: "your account is rejected, register after 2 days",
+    REJECTED_MESSAGE: "your account is rejected, register after 2 days",
   },
 };
 

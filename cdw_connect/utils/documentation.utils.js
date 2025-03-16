@@ -20,12 +20,19 @@ function setupDocs(app) {
         description: "Local development server",
       },
     ],
+    security: [
+      {
+        BearerAuth: []  
+      }
+    ],
     components: {
       securitySchemes: {
-        ApiKeyAuth: {
-          type: "apiKey",
+        BearerAuth: {
+          type: "http",
           in: "header",
-          name: "auth-token",
+          name: "authorization",
+          scheme: "bearer",
+          bearerFormat: "JWT"
         },
       },
       schemas: {
@@ -36,9 +43,9 @@ function setupDocs(app) {
             postId: { type: "string" },
             title: { type: "string" },
             location: { type: "string" },
-            media: { type: "string" },
+            attachment: { type: "string" },
             caption: { type: "string" },
-            timestamp: { type: "string" },
+            timestamp: { type: "Date" },
             like: {
               type: "object",
               properties: {
@@ -51,7 +58,7 @@ function setupDocs(app) {
               properties: {
                 employeeId: { type: "string" },
                 comment: { type: "string" },
-                timestamp: { type: "string" },
+                timestamp: { type: "Date" },
               },
             },
           },
@@ -78,7 +85,7 @@ function setupDocs(app) {
             location: { type: "string" },
             approvalStatus: { type: "string" },
             password: { type: "string" },
-            timestamp: { type: "string" },
+            timestamp: { type: "Date" },
           },
         },
       },
