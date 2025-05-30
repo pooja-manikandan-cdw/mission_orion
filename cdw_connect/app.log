@@ -204,3 +204,88 @@ error - Operation `posts.find()` buffering timed out after 10000ms - 2025-03-16T
 info - posts retrieved successfully - 2025-03-16T18:15:13.889Z
 info - like updated for the post - 2025-03-16T18:19:03.150Z
 error - Unable to delete posts - 2025-03-16T18:20:23.164Z
+error - Payload validation failed - employeeId is required - 2025-05-30T15:21:56.133Z
+error - Employee fetch failed - 2025-05-30T15:28:31.568Z
+info - Signed in sucessfully, wait for approval - 2025-05-30T15:30:15.837Z
+error - Payload validation failed - employeeId is required - 2025-05-30T15:30:52.516Z
+error - Incorrect password - 2025-05-30T15:30:58.311Z
+error - Employee not found - 2025-05-30T15:31:22.472Z
+info - logged in successfully - 2025-05-30T15:31:26.921Z
+error - No more pending employees found - 2025-05-30T15:31:50.849Z
+info - Signed in sucessfully, wait for approval - 2025-05-30T15:33:26.026Z
+info - Fetched pending employees successfully - 2025-05-30T15:34:55.073Z
+error - Session expired Login again - 2025-05-30T15:39:09.172Z
+info - logged in successfully - 2025-05-30T15:39:13.985Z
+info - status updated successfully - 2025-05-30T15:39:25.190Z
+error - your account is rejected, register after 2 days - 2025-05-30T15:41:52.012Z
+error - Employee have been rejected try again after 2 days - 2025-05-30T15:41:58.067Z
+info - logged in successfully - 2025-05-30T15:58:27.303Z
+error - employeeId cannot be updated - 2025-05-30T16:03:45.106Z
+info - profile updated successfully - 2025-05-30T16:04:01.924Z
+error - User not found for id - ${id} - 2025-05-30T16:05:28.955Z
+error - Session expired Login again - 2025-05-30T16:05:38.058Z
+info - logged in successfully - 2025-05-30T16:05:43.400Z
+info - employee details fetched successfully - 2025-05-30T16:06:00.644Z
+error - User not found for id - ${id} - 2025-05-30T16:06:05.920Z
+error - User not found for id - ${id} - 2025-05-30T16:06:11.200Z
+error - User not found for id - ${id} - 2025-05-30T16:06:23.570Z
+error - User not found for id - ${id} - 2025-05-30T16:06:48.721Z
+error - User not found for id - ${id} - 2025-05-30T16:07:20.878Z
+error - User not found for id - ${id} - 2025-05-30T16:07:37.515Z
+error - No changes to be updated - 2025-05-30T16:09:02.381Z
+error - No changes to be updated - 2025-05-30T16:09:13.419Z
+error - No changes to be updated - 2025-05-30T16:09:51.030Z
+error - User not found for id - 16751 - 2025-05-30T16:09:52.972Z
+error - No changes to be updated - 2025-05-30T16:09:54.905Z
+info - profile updated successfully - 2025-05-30T16:09:59.231Z
+error - Cannot read properties of undefined (reading 'employeeId') - 2025-05-30T16:19:58.019Z
+error - Cannot read properties of undefined (reading 'employeeId') - 2025-05-30T16:20:36.192Z
+error - No changes to be updated - 2025-05-30T16:21:12.169Z
+info - profile updated successfully - 2025-05-30T16:21:43.119Z
+info - profile updated successfully - 2025-05-30T16:21:46.374Z
+error - Session expired Login again - 2025-05-30T17:47:32.927Z
+error - Session expired Login again - 2025-05-30T17:47:41.680Z
+info - logged in successfully - 2025-05-30T17:47:44.795Z
+error - Session expired Login again - 2025-05-30T18:20:56.604Z
+info - logged in successfully - 2025-05-30T18:21:00.104Z
+info - post created successfully - 2025-05-30T18:21:15.371Z
+error - Session expired Login again - 2025-05-30T18:21:19.507Z
+error - Session expired Login again - 2025-05-30T18:25:52.543Z
+error - Session expired Login again - 2025-05-30T18:26:50.652Z
+info - posts retrieved successfully - 2025-05-30T18:26:57.006Z
+info - like updated for the post - 2025-05-30T18:29:59.556Z
+info - comment updated for the post - 2025-05-30T18:31:24.512Z
+error - Unable to find post - 2025-05-30T18:36:27.780Z
+error - Unable to find post - 2025-05-30T18:38:01.757Z
+error - Unable to find post - 2025-05-30T18:38:19.896Z
+error - Unable to find post - 2025-05-30T18:38:39.879Z
+info - like updated for the post - 2025-05-30T18:43:23.038Z
+info - like updated for the post - 2025-05-30T18:43:32.445Z
+info - like updated for the post - 2025-05-30T18:43:33.685Z
+error - You have already liked this post - 2025-05-30T18:53:07.481Z
+error - Cast to ObjectId failed for value "6839f71b021a2abf12b85ac62" (type string) at path "_id" for model "posts" - 2025-05-30T18:53:13.939Z
+error - Unable to find post - 2025-05-30T18:53:19.536Z
+info - comment updated for the post - 2025-05-30T18:57:38.889Z
+error - Session expired Login again - 2025-05-30T19:16:15.558Z
+info - logged in successfully - 2025-05-30T19:16:20.830Z
+error - Payload validation failed - comment is required - 2025-05-30T19:16:31.784Z
+info - comment updated for the post - 2025-05-30T19:16:38.844Z
+error - Session expired Login again - 2025-05-30T19:17:16.695Z
+info - retrevied for posts email - 2025-05-30T19:17:25.218Z
+info - like updated for the post - 2025-05-30T19:20:12.723Z
+info - search posts successfully - 2025-05-30T19:23:42.879Z
+info - search posts successfully - 2025-05-30T19:24:33.275Z
+info - search posts successfully - 2025-05-30T19:24:59.136Z
+info - search posts successfully - 2025-05-30T19:30:43.906Z
+info - search posts successfully - 2025-05-30T19:32:09.629Z
+info - search posts successfully - 2025-05-30T19:33:01.363Z
+info - search posts successfully - 2025-05-30T19:33:55.535Z
+info - search posts successfully - 2025-05-30T19:34:40.090Z
+info - search posts successfully - 2025-05-30T19:35:35.850Z
+info - search posts successfully - 2025-05-30T19:35:37.804Z
+info - search posts successfully - 2025-05-30T19:36:06.216Z
+info - search posts successfully - 2025-05-30T19:37:52.711Z
+info - search posts successfully - 2025-05-30T19:38:24.077Z
+info - search posts successfully - 2025-05-30T19:38:39.804Z
+info - search posts successfully - 2025-05-30T19:38:43.237Z
+info - search posts successfully - 2025-05-30T19:41:37.054Z

@@ -66,8 +66,12 @@ const signinEmployeeController = async (req, res, next) => {
         return next(err);
       }
       if (user) {
-        const result = await signinEmployee(req.employee);
-        setResponse(res, SUCCESS, true, false, EMPLOYEE.SUCCESS_SIGNIN, result);
+        try {
+          const result = await signinEmployee(req.employee);
+          setResponse(res, SUCCESS, true, false, EMPLOYEE.SUCCESS_SIGNIN, result);
+        } catch (err) {
+          next(err);
+        }
       }
     })(req, res, next);
   } catch (err) {
@@ -110,7 +114,7 @@ const updatePendingUserController = async (req, res, next) => {
  */
 const updateUserProfileController = async (req, res, next) => {
   try {
-    const result = await updateUser(req.params.employeeId, req.body);
+    const result = await updateUser(req.employee.employeeId, req.body);
     setResponse(
       res,
       SUCCESS,

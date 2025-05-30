@@ -62,15 +62,29 @@ const filterPost = async (email) => {
  * @returns boolean based on update status
  */
 const likePost = async (postId, employeeId) => {
+  const post = await posts.findOne({ _id: postId });
+  if (!post) {
+    throw new AppError(BAD_REQUEST, UNABLE_TO_FIND_POST, "");
+  }
+
+  if (post.like.users.includes(employeeId)) {
+    throw new AppError(BAD_REQUEST, "You have already liked this post", "");
+  }
+
   const updatedResult = await posts.updateOne(
-    { _id: postId, "like.users": { $ne: employeeId } },
+    { _id: postId },
     {
       $inc: { "like.count": 1 },
       $addToSet: { "like.users": employeeId },
     }
   );
-  if (updatedResult.modifiedCount) return true;
-  throw new AppError(BAD_REQUEST, UNABLE_TO_FIND_POST, "");
+  if (updatedResult.modifiedCount) {
+    return true;
+  } else if (!updatedResult.matchedCount) {
+    throw new AppError(BAD_REQUEST, UNABLE_TO_FIND_POST, "");
+  } else {
+    throw new AppError(BAD_REQUEST, "You have already liked this post", "");
+  }
 };
 
 /**
@@ -102,13 +116,19 @@ const commentPost = async (postId, email, comment) => {
  * @param {Object} query query param based on which search posts
  */
 const searchPost = async (query) => {
-  const { username, designation, title, location, caption } = query;
+  const matchStage = {
+    "userDetails.name": query.username || "",
+    "userDetails.designation": query.designation || "",
+    title: query.title || "",
+    location: query.location || "",
+    caption: query.caption || "",
+  };
   const results = await posts.aggregate([
     {
       $lookup: {
-        from: "email",
+        from: "employees",
         localField: "email",
-        foreignField: "_id",
+        foreignField: "email",
         as: "userDetails",
       },
     },
@@ -116,14 +136,16 @@ const searchPost = async (query) => {
       $unwind: "$userDetails",
     },
     {
-      $match: {
-        "userDetails.name": username,
-        title: title,
-        location: location,
-        caption: caption,
+      $match: matchStage,
+    },
+    {
+      $project: {
+        userDetails: 0, // Exclude userDetails from the result
       },
     },
   ]);
+
+  return results;
 };
 
 module.exports = {

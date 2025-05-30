@@ -25,7 +25,7 @@ MESSAGES = {
       FILTERED_POST_SUCCESS: "retrevied for posts email",
       UPDATED_LIKE: "like updated for the post",
       UPDATED_COMMENT: "comment updated for the post",
-      SEARCH_POSTS_SUCCESS: "like updated for the post",
+      SEARCH_POSTS_SUCCESS: "search posts successfully",
     },
   },
   FAILURE: {

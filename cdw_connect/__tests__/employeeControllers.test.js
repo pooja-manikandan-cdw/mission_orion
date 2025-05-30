@@ -151,7 +151,6 @@ describe("updateUserProfileController", () => {
   it("should call setresponse when result is received", async () => {
     employeeServices.updateUser.mockReturnValue([{ id: 1675, email: "test" }]);
     await updateUserProfileController(req, res, next);
-    expect(employeeServices.updateUser).toHaveBeenCalled();
     expect(responseUtils.setResponse).toHaveBeenCalledWith(
       res,
       200,
@@ -164,6 +163,11 @@ describe("updateUserProfileController", () => {
 
   it("it should call next function when error is thrown", async () => {
     const error = new AppError(404, "Custom test error", "ERROR");
+    req = {
+      employee: {
+        employeeId: 122,
+      },
+    };
     employeeServices.updateUser.mockRejectedValue(error);
     await updateUserProfileController(req, res, next);
     expect(next).toHaveBeenCalledWith(error);

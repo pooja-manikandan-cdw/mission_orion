@@ -5,6 +5,7 @@ const {
   getPendingUsersController,
   updatePendingUserController,
   getEmployeeDetailsController,
+  updateUserProfileController,
 } = require("../controllers/employee.controllers");
 const { body, validationResult, query, param } = require("express-validator");
 const {
@@ -90,6 +91,12 @@ router.get(
   employeeIdValidation,
   validateRequiredPayload,
   getEmployeeDetailsController
+);
+
+router.patch(
+  "/",
+  authorizeUser,
+  updateUserProfileController
 );
 
 module.exports = router;

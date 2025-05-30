@@ -212,7 +212,7 @@ describe("signinEmployee", () => {
 describe("updateUser", () => {
   it("should return true for on successfull update of user", async () => {
     employees.updateOne.mockResolvedValue({ modifiedCount: 1 });
-    const result = await updateUser("1675", { employeeId: 1675 });
+    const result = await updateUser("1675", { name: "1675" });
     expect(result).toBeTruthy();
   });
   it("should throw app error when update is unsuccessfull", async () => {
@@ -221,7 +221,7 @@ describe("updateUser", () => {
       expect.objectContaining({
         statusCode: 400,
         errorCode: "",
-        message: "User not found for id - ${id}",
+        message: "employeeId cannot be updated",
       })
     );
   });

@@ -1,5 +1,5 @@
 const CDW_EMPLOYEE_MOCK =
-  "https://mocki.io/v1/3727d0f5-3422-4dec-bb99-9876570f2f59";
+  "https://mocki.io/v1/8d3c3a22-b1c2-4461-9fa1-9b2c99da043b";
 
 module.exports = { CDW_EMPLOYEE_MOCK };
 

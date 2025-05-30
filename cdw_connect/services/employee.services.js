@@ -33,7 +33,7 @@ const signupEmployee = async (employeeDetails) => {
 
   // fetch cdw employee json
   const response = await fetch(CDW_EMPLOYEE_MOCK);
-  if (response?.status !== 200) return null;
+  if (response?.status !== 200) throw new AppError(BAD_REQUEST, "Employee fetch failed", "");;
   const data = await response.json();
 
   // check if employee is found in json
@@ -141,12 +141,19 @@ const signinEmployee = async (user) => {
  * @returns boolean based the updated status
  */
 const updateUser = async (employeeId, user) => {
+  if(user.employeeId) {
+    throw new AppError(BAD_REQUEST, "employeeId cannot be updated", "");
+  }
   const updatedResult = await employees.updateOne(
     { employeeId: employeeId },
     { ...user }
   );
-  if (updatedResult.modifiedCount) return true;
-  throw new AppError(BAD_REQUEST, USER_NOT_FOUND, "");
+  if (updatedResult.modifiedCount) {
+    return true;
+  } else {
+    throw new AppError(BAD_REQUEST, "No changes to be updated", "");
+  }
+
 };
 
 /**

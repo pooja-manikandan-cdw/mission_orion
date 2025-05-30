@@ -29,6 +29,31 @@ const postIdValidation = [
   param("postId").notEmpty().withMessage("postId is required in path"),
 ];
 
+const commentValidation = [
+  body("comment").notEmpty().withMessage("comment is required"),
+  param("postId").notEmpty().withMessage("postId is required in path"),
+];
+
+const searchPostValidation = [
+  query("username")
+    .notEmpty()
+    .isString()
+    .withMessage("username should be string"),
+  query("designation")
+    .notEmpty()
+    .isString()
+    .withMessage("designation should be string"),
+  query("title").notEmpty().isString().withMessage("title should be string"),
+  query("location")
+    .notEmpty()
+    .isString()
+    .withMessage("location should be string"),
+  query("caption")
+    .notEmpty()
+    .isString()
+    .withMessage("caption should be string"),
+];
+
 /**
  * @swagger
  * /post/:
@@ -163,8 +188,23 @@ router.get(
  *             schema:
  *               $ref: "#/components/schemas/posts"
  */
-router.patch("/like/:postId", likePostContainer);
-router.patch("/comment/:postId", commentPostContainer);
-router.get("/search", searchPostContainer);
+router.patch(
+  "/like/:postId",
+  commentValidation,
+  validateRequiredPayload,
+  likePostContainer
+);
+router.patch(
+  "/comment/:postId",
+  commentValidation,
+  validateRequiredPayload,
+  commentPostContainer
+);
+router.get(
+  "/search",
+  searchPostValidation,
+  validateRequiredPayload,
+  searchPostContainer
+);
 
 module.exports = router;
