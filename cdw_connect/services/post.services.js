@@ -140,7 +140,7 @@ const searchPost = async (query) => {
     },
     {
       $project: {
-        userDetails: 0, // Exclude userDetails from the result
+        userDetails: 0,
       },
     },
   ]);

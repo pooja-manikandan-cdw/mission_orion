@@ -6,7 +6,6 @@ const swaggerJSDoc = require("swagger-jsdoc");
  * @param app
  */
 function setupDocs(app) {
-  // swagger definition
   const swaggerDefinition = {
     openapi: "3.0.0",
     info: {
@@ -92,16 +91,13 @@ function setupDocs(app) {
     },
   };
 
-  // swagger options
   const options = {
     swaggerDefinition,
     apis: ["./routes/*.js", "./controllers/*.js"],
   };
 
-  // swagger spec
   const swaggerSpec = swaggerJSDoc(options);
 
-  // create docs route
   app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 }
 

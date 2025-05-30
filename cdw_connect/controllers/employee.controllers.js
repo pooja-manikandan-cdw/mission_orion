@@ -68,7 +68,14 @@ const signinEmployeeController = async (req, res, next) => {
       if (user) {
         try {
           const result = await signinEmployee(req.employee);
-          setResponse(res, SUCCESS, true, false, EMPLOYEE.SUCCESS_SIGNIN, result);
+          setResponse(
+            res,
+            SUCCESS,
+            true,
+            false,
+            EMPLOYEE.SUCCESS_SIGNIN,
+            result
+          );
         } catch (err) {
           next(err);
         }

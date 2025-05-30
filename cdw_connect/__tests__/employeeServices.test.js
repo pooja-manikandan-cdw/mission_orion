@@ -10,15 +10,9 @@ const employees = require("../models/employee.model");
 const jwt = require("jsonwebtoken");
 const mailUtils = require("../utils/mailer.utils");
 
-// jest.mock("../models/employee.model", () => ({
-//   updateOne: jest.fn(),
-//   find: jest.fn(),
-
-// }));
 
 jest.mock("../models/employee.model", () => {
   return {
-    // Mock the 'find' method to simulate Mongoose behavior
     find: jest.fn(),
     updateOne: jest.fn(),
     save: jest.fn(),
@@ -32,10 +26,6 @@ jest.mock("../utils/mailer.utils", () => ({
 jest.mock("jsonwebtoken", () => ({
   sign: jest.fn(),
 }));
-
-// const jwtSignSpy = jest.spyOn(jwt, "sign").mockReturnValue("testToken");
-
-// let findSpy;
 
 describe("signupEmployee", () => {
   let payload = {
@@ -54,19 +44,12 @@ describe("signupEmployee", () => {
   };
   beforeEach(() => {
     payload.employeeId = "1910";
-    // findSpy = jest.spyOn(employees, "find");
-    // jest.resetAllMocks();
   });
 
   afterEach(() => {
-    // findSpy = jest.spyOn(employees, "find");
     jest.resetAllMocks();
   });
 
-  // afterAll(() => {
-  //   // Clean up the spy after all tests are done
-  //   // findSpy.mockRestore();
-  // });
   it("should throw error when employee is not found in JSON", async () => {
     payload.employeeId = 0;
     await expect(signupEmployee(payload)).rejects.toThrow(AppError);
@@ -92,24 +75,6 @@ describe("signupEmployee", () => {
         timestamp: date,
       },
     ]);
-    // findSpy.mockReturnValue([
-    //   {
-    //     employeeId: "1910",
-    //     name: "swetha",
-    //     email: "swetha.prakashan@cdw.com",
-    //     role: "admin",
-    //     password: "test",
-    //     profilePicture: "https://picsum.photos/200/300",
-    //     bio: "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-    //     latestDesignation: "consultant",
-    //     cetifications: ["abc", "def", "aaa"],
-    //     experience: 3,
-    //     bu: "software engineering",
-    //     location: "chennai",
-    //     approvalStatus: "rejected",
-    //     timestamp: date,
-    //   },
-    // ]);
     await expect(signupEmployee(payload)).rejects.toThrow(
       expect.objectContaining({
         statusCode: 400,

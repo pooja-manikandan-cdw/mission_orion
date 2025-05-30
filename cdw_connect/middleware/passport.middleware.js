@@ -1,7 +1,7 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
-const employees = require("../models/employee.model"); // Adjust this to your actual model path
-const AppError = require("../AppError"); // Assuming custom error handling function
+const employees = require("../models/employee.model");
+const AppError = require("../AppError"); 
 const { decryptPassword } = require("../utils/dataEncryption.utils");
 const { PASSPORT } = require("../constants");
 const { STATUS_CODES } = require("../constants/response.constants");
